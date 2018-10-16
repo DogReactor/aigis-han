@@ -5,10 +5,12 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule, MatTableModule, MatInputModule, MatCardModule, MatButtonModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
+import { NewlinePipe } from './newline.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NewlinePipe
   ],
   imports: [
     BrowserModule,

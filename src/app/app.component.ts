@@ -45,6 +45,7 @@ export class AppComponent {
         const savedO = JSON.parse(saved);
         if (savedO.lastModified > file.lastModified) {
           this.textList = savedO.data;
+          this.compatibility();
           self.file = file;
           return;
         }
@@ -65,7 +66,7 @@ export class AppComponent {
       const ts = lines[i];
       if (ts === '') { continue; }
       const tsA = ts.split('\t');
-      tsA[0] = tsA[0].replace(/\\n/g, '<br>');
+      tsA[0] = tsA[0].replace(/\\n/g, '\n');
       if (tsA[1]) {
         tsA[1] = tsA[1].replace(/\\n/g, '\n');
       }
@@ -94,12 +95,18 @@ export class AppComponent {
   genText() {
     let s = '';
     for (const t of this.textList) {
-      s += `${t[1].replace(/<br>/g, '\\n')}\t${t[2].replace(/\n/g, '\\n')}\r\n`;
+      if (t[2] === '') { continue; }
+      s += `${t[1].replace(/\n/g, '\\n')}\t${t[2].replace(/\n/g, '\\n')}\r\n`;
     }
     return s;
   }
   download() {
     const blob = new Blob([this.genText()], { type: 'text/plain;charset=utf-8' });
     saveAs(blob, this.file.name);
+  }
+  compatibility() {
+    for (const t of this.textList) {
+      t[1] = t[1].replace(/<br>/g, '\n');
+    }
   }
 }
